@@ -1,0 +1,615 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap');
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+svg,
+.cert-title-text,
+.about-intro {
+  user-select: none;
+  cursor: default;
+}
+
+*:focus {
+  outline: none !important;
+}
+
+.navigation,
+.navigation * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.navigation a,
+.navigation .name,
+.navigation .logo {
+  cursor: pointer;
+}
+
+.home-root {
+  background-color: #FFF4B7;
+  color: #fff;
+  font-family: "League Spartan", sans-serif;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.navigation,
+.name,
+.nav a {
+  font-family: 'Fjalla One', sans-serif;
+}
+
+.navigation {
+  max-width: 900px;
+  width: 80%;
+  height: 80px;
+  background: #102c57e4;
+  border-radius: 50px;
+  position: fixed;
+  top: 7%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  transition: background 0.3s ease-in-out;
+  z-index: 10;
+}
+
+.home-root.dark-mode .navigation {
+  background: #92487A;
+}
+
+.navigation:hover {
+  background: #102C57;
+}
+
+.logo {
+  margin-right: 10px;
+  max-width: 50px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 500;
+  color: #fff;
+  margin-left: 20px;
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.name:hover {
+  color: #15B392;
+  transform: scale(1.2);
+}
+
+@media (max-width: 600px) {
+  .name {
+    display: none;
+  }
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+  margin-left: auto;
+  align-items: center;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+  position: relative;
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.nav a:hover {
+  color: #F26B0F;
+  transform: scale(1.1);
+}
+
+.nav a i {
+  font-size: 1.5rem;
+  color: #fff;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav a i:hover {
+  transform: rotate(15deg);
+  color: #F26B0F;
+}
+
+.floating {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 10%;
+  right: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  background: #102C57;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.floating:hover {
+  background: #F26B0F;
+  transform: scale(1.1);
+}
+
+.floating i {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  color: #fff;
+  transition: transform 0.3s ease;
+}
+
+.floating:hover i {
+  transform: rotate(180deg);
+}
+
+#About {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10% 0 13%;
+  color: #333;
+  position: relative;
+  overflow: hidden;
+}
+
+#About .left,
+#About .right {
+  width: 45%;
+}
+
+#About .left {
+  position: relative;
+  text-align: left;
+  z-index: 10;
+}
+
+#About .left h2 {
+  font-size: 50px;
+  margin-top: 27%;
+  background: linear-gradient(to right, #1b1a55e8, #3C0753, #720455, #910A67, #522258);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientMove 15s ease-in-out infinite alternate;
+  font-family: "League Spartan", sans-serif;
+}
+
+.home-root.dark-mode #About .left h2 {
+  font-size: 50px;
+  margin-top: 27%;
+  background: linear-gradient(to right,
+      #3F5EFB,
+      #46F6FC,
+      #FC466B,
+      #3F5EFB);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientMove 15s ease-in-out infinite alternate;
+  font-family: "League Spartan", sans-serif;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+#About .left p {
+  z-index: 4;
+  font-size: 20px;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  font-family: "League Spartan", sans-serif;
+}
+
+#Portfolio,
+#Cert {
+  background-color: lightcoral;
+  color: #333;
+}
+
+#Footer-Info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #333;
+  color: #fff;
+  padding: 15px 10%;
+  font-family: "League Spartan", sans-serif;
+  flex-wrap: wrap;
+}
+
+.footer-left,
+.footer-right {
+  flex: 1;
+  margin-top: 15px;
+  max-width: 50%;
+}
+
+.footer-left i,
+.footer-right i {
+  margin-right: 10px;
+  color: #F26B0F;
+}
+
+.footer-left a {
+  color: #5dbbe3;
+  text-decoration: none;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+.footer-left a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: #F26B0F;
+  transition: width 0.3s ease-in-out;
+}
+
+.footer-left a:hover::after {
+  width: 100%;
+}
+
+.social-icons a {
+  display: inline-block;
+  color: #fff;
+  margin-right: 15px;
+  font-size: 20px;
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.social-icons a:hover {
+  transform: rotate(15deg) scale(1.1);
+}
+
+.connect {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.description {
+  font-size: 13px;
+}
+
+#Footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0;
+  color: #333;
+  font-family: "League Spartan", sans-serif;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  max-width: 1200px;
+  padding: 5px 20px;
+}
+
+.copyright,
+.developer {
+  margin: 2% 0;
+}
+
+.copyright {
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  #About {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #About .left,
+  #About .right {
+    width: 100%;
+  }
+
+
+  #Footer-Info {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-left,
+  .footer-right {
+    max-width: 100%;
+  }
+}
+
+.home-root.light-mode {
+  background-color: #fff4b7;
+  color: #272343;
+}
+
+.home-root.dark-mode {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+.home-root.dark-mode #About .left p {
+  color: #f9fafb;
+  z-index: 4 !important;
+}
+
+.home-root {
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+}
+
+.home-root.home-enter {
+  opacity: 1;
+}
+
+.home-root .navigation,
+.home-root #About .left,
+.home-root #About .right,
+.home-root .side-float {
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.home-root:not(.home-enter) .navigation {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.home-root:not(.home-enter) #About .left {
+  opacity: 0;
+  transform: translateX(-16px);
+}
+
+.home-root:not(.home-enter) #About .right {
+  opacity: 0;
+  transform: translateX(16px);
+}
+
+.snap-section {
+  scroll-snap-align: start;
+}
+
+#Portfolio {
+  min-height: 100vh;
+  /* occupy full viewport */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* vertically center content if you want */
+  padding: 40px 10%;
+  box-sizing: border-box;
+}
+
+/* ============================= */
+/* CERTIFICATES 2-COLUMN SECTION */
+/* ============================= */
+
+#Cert {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  /* <-- changed from center to flex-start */
+  padding: 0 10% 0 13%;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* 2) make the left column a vertical stack (title above list) */
+#Cert>.cert-section-inner {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  /* ensure children align to top */
+}
+
+.cert-heading {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  margin: 0;
+  padding-top: 8px;
+}
+
+.cert-left {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.cert-columns {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.cert-list {
+  --timeline-x: 20px;
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  padding-left: calc(var(--timeline-x) + 24px);
+  padding-top: 8px;
+}
+
+.cert-list::before {
+  content: "";
+  position: absolute;
+  left: var(--timeline-x);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+}
+
+#Cert>.cert-section-inner>.cert-heading {
+  order: 0;
+  flex: 0 0 40%;
+}
+
+.cert-title-btn {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 8px 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.cert-title-btn:not(.active):hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.cert-dot {
+  position: absolute;
+  left: var(--timeline-x);
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  transform: translate(-360%, -50%);
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cert-title-text {
+  margin-left: 0;
+  white-space: nowrap;
+}
+
+.cert-title-btn.active {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.cert-title-btn.active .cert-dot {
+  background: #ffffff;
+  transform: translate(-390%, -55%) scale(1.3);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+}
+
+.cert-detail {
+  flex: 1 0 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  max-width: 520px;
+  margin-left: auto;
+
+  background: #fff4b7;
+  border-radius: 24px;
+  padding: 24px 24px 20px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+
+  gap: 16px;
+}
+
+.cert-image-wrapper {
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+}
+
+.cert-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.cert-description {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .cert-columns {
+    flex-direction: column;
+  }
+
+  .cert-detail {
+    max-width: 100%;
+    margin-left: 0;
+  }
+
+  .cert-title-text {
+    white-space: normal;
+  }
+}

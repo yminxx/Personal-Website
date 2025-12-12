@@ -1,0 +1,110 @@
+.about-shelf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.shelf-objects {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5rem;
+  position: relative;
+}
+
+.frame {
+  padding: 0.8rem;
+  border-radius: 18px;
+  border: 2px solid #e2e2e2;
+  background: #fffaf0;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
+}
+
+.frame .avatar-wrapper {
+  width: 140px;       
+}
+
+.lamp {
+  position: relative;
+  width: 140px;   
+  height: 160px;
+}
+
+.lamp-light {
+  position: absolute;
+  bottom: 40px;
+  left: 10px;
+  width: 130px;
+  height: 130px;
+  background: radial-gradient(
+    circle at 0 0,
+    rgba(255, 255, 204, 0.9),
+    rgba(255, 255, 204, 0.1)
+  );
+  clip-path: polygon(40% 0%, 100% 30%, 0% 100%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.lamp-arm-back {
+  position: absolute;
+  bottom: 52px;
+  left: 60px;
+  width: 6px;
+  height: 70px;
+  background: #2f3445;
+  border-radius: 999px;
+  transform-origin: bottom center;
+  transform: rotate(-35deg);
+  opacity: 0.8;
+}
+
+.lamp-stand {
+  position: absolute;
+  bottom: 48px;
+  left: 45px;
+  width: 6px;
+  height: 70px;
+  background: #2f3445;
+  border-radius: 999px;
+}
+
+.lamp-arm-front {
+  position: absolute;
+  bottom: 88px;
+  left: 56px;
+  width: 6px;
+  height: 60px;
+  background: #2f3445;
+  border-radius: 999px;
+  transform-origin: bottom center;
+  transform: rotate(-35deg);
+}
+
+.lamp-head {
+  position: absolute;
+  bottom: 124px;
+  left: 80px;
+  width: 52px;
+  height: 34px;
+  background: #2f3445;
+  border-radius: 50px 50px 16px 16px;
+}
+
+.lamp-base {
+  position: absolute;
+  bottom: 38px;
+  left: 44px;
+  width: 70px;
+  height: 14px;
+  background: #2f3445;
+  border-radius: 999px;
+}
+
+.shelf-base {
+  width: 100%;
+  height: 26px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #9b6a3a, #c79155, #8b5a2b);
+  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.18);
+}
