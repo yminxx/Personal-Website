@@ -142,7 +142,7 @@ function HomePage() {
         <nav className="nav">
           <a href="#Portfolio">Portfolio</a>
           <a
-            href="https://your-resume-link.com"
+            href="/YSA_GABRIELLE_CERVANTES_RESUME.pdf"
             target="_blank"
             rel="noreferrer"
           >
