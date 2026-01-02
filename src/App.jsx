@@ -41,10 +41,47 @@ function HomePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [activeCertIndex, setActiveCertIndex] = useState(0);
   const certSectionRef = useRef(null);
+  const portfolioRef = useRef(null);
+  const navRef = useRef(null);
+  const carouselRef = useRef(null);
+  const ELECSEER_IMAGES = [
+    { src: "/images/Ephoto3.jpg", date: "12.09.2023" },
+    { src: "/images/Ephoto4.jpg", date: "18.09.2023" },
+    { src: "/images/Ephoto5.jpg", date: "21.09.2023" },
+    { src: "/images/Ephoto6.jpg", date: "25.09.2023" },
+    { src: "/images/Ephoto7.jpg", date: "30.09.2023" },
+    { src: "/images/Ephoto2.jpg", date: "30.09.2023" },
+  ];
+  const ARSEMBLE_IMAGES = [
+    { src: "/images/Ephoto3.jpg", date: "12.09.2023" },
+    { src: "/images/Ephoto4.jpg", date: "18.09.2023" },
+    { src: "/images/Ephoto5.jpg", date: "21.09.2023" },
+    { src: "/images/Ephoto6.jpg", date: "25.09.2023" },
+    { src: "/images/Ephoto7.jpg", date: "30.09.2023" },
+    { src: "/images/Ephoto2.jpg", date: "30.09.2023" },
+  ];
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [previewImage, setPreviewImage] = useState(null);
+
+  const openPreview = (src) => {
+    setPreviewImage(src);
+  };
+
+  const closePreview = () => {
+    setPreviewImage(null);
+  };
 
   useEffect(() => {
     setHasLoaded(true);
   }, []);
+
+  useEffect(() => {
+    if (previewImage) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+  }, [previewImage]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,6 +91,36 @@ function HomePage() {
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // portfolio wheel effect
+  useEffect(() => {
+    const el = portfolioRef.current;
+    if (!el) return;
+
+    let locked = false;
+
+    const onWheel = (e) => {
+      if (locked) return;
+
+      const slides = el.querySelectorAll(".portfolio-slide");
+      const slideHeight = window.innerHeight;
+      const index = Math.floor(el.scrollTop / slideHeight);
+
+      if (e.deltaY > 0 && index < slides.length - 1) {
+        e.preventDefault();
+        locked = true;
+        el.scrollTo({
+          top: (index + 1) * slideHeight,
+          behavior: "smooth",
+        });
+        setTimeout(() => (locked = false), 600);
+      }
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
+
 
   useEffect(() => {
     const sectionEl = certSectionRef.current;
@@ -112,6 +179,118 @@ function HomePage() {
     return () => sectionEl.removeEventListener("wheel", handleWheel);
   }, [activeCertIndex]);
 
+  useEffect(() => {
+    const cursor = document.getElementById("portfolio-cursor");
+    const portfolio = portfolioRef.current;
+
+    if (!cursor || !portfolio) return;
+
+    const moveCursor = (e) => {
+      // ❌ block cursor outside Portfolio
+      if (!portfolio.matches(":hover")) return;
+
+      const x = e.clientX;
+      const y = e.clientY;
+
+      cursor.style.transform = `
+    translate(${x}px, ${y}px)
+    translate(-50%, -50%)
+  `;
+
+      const reveal = document.querySelector(".reveal-text");
+      const container = document.querySelector(".spotlight-text");
+      if (!reveal || !container) return;
+
+      const MAGNIFY_Y_OFFSET = -15;
+
+      const rect = container.getBoundingClientRect();
+      const height = rect.height;
+
+      const localX = x - rect.left;
+      const localY = y - rect.top + MAGNIFY_Y_OFFSET;
+
+      const clampedY = Math.max(0, Math.min(localY, height));
+
+      reveal.style.setProperty("--x", `${localX}px`);
+      reveal.style.setProperty("--y", `${clampedY}px`);
+    };
+
+    const createParticles = (x, y) => {
+      const particleCount = 16;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement("div");
+        particle.className = "cursor-particle";
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 100 + 50;
+
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        particle.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+        particle.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+
+        document.body.appendChild(particle);
+
+        particle.addEventListener("animationend", () => {
+          particle.remove();
+        });
+      }
+    };
+
+    const showCursor = (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+
+      cursor.style.transform = `
+    translate(${x}px, ${y}px)
+    translate(-50%, -50%)
+    scale(1)
+  `;
+
+      cursor.style.opacity = "1";
+    };
+
+
+    const hideCursor = () => {
+      cursor.style.opacity = "0";
+    };
+
+    const handleClick = (e) => {
+      if (!portfolio.matches(":hover")) return;
+
+      cursor.style.transform = `
+      translate(${e.clientX}px, ${e.clientY}px)
+      translate(-50%, -50%)
+      scale(0)
+    `;
+      cursor.style.opacity = "0";
+
+      createParticles(e.clientX, e.clientY);
+
+      setTimeout(() => {
+        cursor.style.opacity = "1";
+        cursor.style.transform = `
+        translate(${e.clientX}px, ${e.clientY}px)
+        translate(-50%, -50%)
+        scale(1)
+      `;
+      }, 220);
+    };
+
+    portfolio.addEventListener("mouseenter", showCursor);
+    portfolio.addEventListener("mouseleave", hideCursor);
+    window.addEventListener("mousemove", moveCursor);
+    window.addEventListener("click", handleClick);
+
+    return () => {
+      portfolio.removeEventListener("mouseenter", showCursor);
+      portfolio.removeEventListener("mouseleave", hideCursor);
+      window.removeEventListener("mousemove", moveCursor);
+      window.removeEventListener("click", handleClick);
+    };
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -132,7 +311,7 @@ function HomePage() {
         } ${hasLoaded ? "home-enter" : ""}`}
     >
       {/* navigation */}
-      <div className="navigation">
+      <div className="navigation" ref={navRef}>
         <a href="#About">
           <img src="/images/logo1.png" className="logo" alt="Logo" />
         </a>
@@ -207,52 +386,116 @@ function HomePage() {
       </div>
 
       {/* PORTFOLIO */}
-      <div id="Portfolio" className="snap-section" style={{ height: "100vh" }}>
-        <h2>portfolio.</h2>
-        <p>This is the Portfolio section. Replace this with your projects.</p>
-      </div>
+      <div
+        id="Portfolio"
+        ref={portfolioRef}
+        className="snap-section portfolio-root"
+      >
 
-      {/* CERTIFICATES */}
-      <div id="Cert" className="snap-section" ref={certSectionRef} style={{ height: "100vh" }}>
-        <div className="cert-section-inner">
+        {/* ================== PROJECT 1: ELECSEER ================== */}
+        <section className="portfolio-slide hero">
+          <div className="project-header">
+            <h1 className="project-title">Elecseer</h1>
 
-          {/* LEFT COLUMN — heading + list */}
-          <div className="cert-left">
-            <h2 className="cert-heading">certificates.</h2>
-
-            <div className="cert-list">
-              {CERTIFICATES.map((cert, index) => (
-                <button
-                  key={cert.id}
-                  type="button"
-                  className={
-                    "cert-title-btn" + (index === activeCertIndex ? " active" : "")
-                  }
-                  onClick={() => setActiveCertIndex(index)}
-                >
-                  <span className="cert-dot" />
-                  <span className="cert-title-text">{cert.title}</span>
-                </button>
-              ))}
+            <div className="tech-tags">
+              <span>Arduino Uno</span>
+              <span>Firebase</span>
+              <span>Tailwind</span>
             </div>
           </div>
 
-          {/* RIGHT COLUMN — certificate preview + description */}
-          <div className="cert-detail">
-            <div className="cert-image-wrapper">
+          <div className="project-body">
+            <div className="project-media">
               <img
-                src={CERTIFICATES[activeCertIndex].image}
-                alt={CERTIFICATES[activeCertIndex].title}
-                className="cert-image"
+                src="/images/Ephoto8.png"
+                alt="Elecseer overview"
+                className="hero-image"
               />
             </div>
 
-            <p className="cert-description">
-              {CERTIFICATES[activeCertIndex].description}
-            </p>
+            <div className="project-info">
+              <div className="spotlight-text">
+                <p className="project-desc base-text">
+                  Elecseer is a hardware–cloud integrated system that
+                  connects Arduino-based
+                  devices with Firebase services, enabling real-time
+                  interaction and
+                  monitoring for smart automation and educational use cases.
+                </p>
+
+                <p className="project-desc reveal-text">
+                  Elecseer is a hardware–cloud integrated system that
+                  connects Arduino-based
+                  devices with Firebase services, enabling real-time
+                  interaction and
+                  monitoring for smart automation and educational use cases.
+                </p>
+              </div>
+              <p className="project-role">
+                <strong>Role:</strong> Frontend Developer
+              </p>
+              <div className="project-carousel-preview">
+                <div className="mini-carousel">
+                  {[...ELECSEER_IMAGES, ...ELECSEER_IMAGES].map((item, i) => (
+                    <div
+                      className="mini-carousel-item"
+                      key={`elecseer-${i}`}
+                      onClick={() => openPreview(item.src)}
+                    >
+                      <img src={item.src} alt={`elecseer-${i}`} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================== PROJECT 2: DUPLICATE ================== */}
+        <section className="portfolio-slide hero">
+          <div className="project-header">
+            <h1 className="project-title">ARsemble</h1>
+
+            <div className="tech-tags">
+              <span>Unity</span>
+              <span>Firebase</span>
+              <span>Gemini</span>
+            </div>
           </div>
 
-        </div>
+          <div className="project-body">
+            <div className="project-media">
+              <img
+                src="/images/Ephoto9.png"
+                alt="Project overview"
+                className="hero-image"
+              />
+            </div>
+
+            <div className="project-info">
+              <p className="project-desc">
+                YOUR PROJECT DESCRIPTION HERE.
+              </p>
+              <p className="project-role">
+                <strong>Role:</strong> Team Leader, Lead Developer
+              </p>
+              <div className="project-carousel-preview">
+                <div className="mini-carousel">
+                  {[...ARSEMBLE_IMAGES, ...ARSEMBLE_IMAGES].map((item, i) => (
+                    <div
+                      className="mini-carousel-item"
+                      key={`project2-${i}`}
+                      onClick={() => openPreview(item.src)}
+                    >
+                      <img src={item.src} alt={`project2-${i}`} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
 
       {/* FOOTER INFO */}
@@ -304,6 +547,28 @@ function HomePage() {
           <p className="developer">Developed by Ysa Gabrielle Cervantes</p>
         </div>
       </div>
+
+      {/* PORTFOLIO CUSTOM CURSOR */}
+      <div id="portfolio-cursor" />
+
+      {/* IMAGE PREVIEW MODAL — ADD HERE */}
+      {previewImage && (
+        <div className="image-modal" onClick={closePreview}>
+          <div
+            className="image-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="image-modal-close"
+              onClick={closePreview}
+            >
+              ×
+            </button>
+            <img src={previewImage} alt="Preview" />
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
